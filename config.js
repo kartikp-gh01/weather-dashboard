@@ -1,0 +1,3 @@
+window.WEATHER_CONFIG = {
+  apiKey: 'cea78623adf84d4084555435260907',
+};

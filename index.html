@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A modern, premium weather dashboard with live forecasts, search history, and responsive glassmorphism UI." />
+    <meta name="keywords" content="weather dashboard, forecast, openweather, city weather, live weather" />
+    <meta name="author" content="Kartik Parashar" />
+    <meta property="og:title" content="Weather Dashboard" />
+    <meta property="og:description" content="Stay ahead of the weather with a polished, animated dashboard." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/images/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+  <body class="theme-dark">
+    <div class="background-layer" aria-hidden="true">
+      <div class="sky-glow"></div>
+      <div class="grid-haze"></div>
+      <div class="aurora"></div>
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+      <div class="cloud cloud-c"></div>
+      <div class="terrain terrain-back"></div>
+      <div class="terrain terrain-front"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="particle particle-1"></div>
+      <div class="particle particle-2"></div>
+      <div class="particle particle-3"></div>
+      <div class="particle particle-4"></div>
+      <div class="shimmer"></div>
+    </div>
+
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark">☁</div>
+        <div>
+          <h1>Weather Dashboard</h1>
+          <p>Live forecasts, polished insights, and elegant clarity.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode">🌙</button>
+      </div>
+    </header>
+
+    <main class="dashboard-shell">
+      <section class="hero-panel glass-card">
+        <div class="search-panel">
+          <form id="searchForm" class="search-form">
+            <label class="sr-only" for="cityInput">Search city</label>
+            <input id="cityInput" name="city" type="search" placeholder="Search for a city..." autocomplete="off" />
+            <button type="submit">Search</button>
+          </form>
+          <div class="actions-row">
+            <button id="locationButton" class="secondary-button" type="button">Use My Location</button>
+            <button id="unitToggle" class="secondary-button" type="button" aria-label="Toggle temperature unit">°F</button>
+          </div>
+        </div>
+
+        <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+        <div id="loadingIndicator" class="loading" hidden>
+          <div class="spinner"></div>
+          <span>Loading live weather...</span>
+        </div>
+
+        <div class="hero-card">
+          <div class="weather-main">
+            <div class="weather-summary">
+              <p class="eyebrow">Now</p>
+              <h2 id="cityName">Loading city...</h2>
+              <p id="countryTag" class="country-tag">--</p>
+              <p id="dateTime" class="date-time">--</p>
+              <div class="temperature-row">
+                <div id="weatherIcon" class="weather-icon" aria-label="Weather icon">☀️</div>
+                <div>
+                  <h3 id="temperature">--</h3>
+                  <p id="weatherDescription" class="description">--</p>
+                  <p id="feelsLike" class="muted">Feels like --</p>
+                </div>
+              </div>
+            </div>
+            <div class="hero-highlights">
+              <div class="mini-card"><span>Humidity</span><strong id="humidity">--</strong></div>
+              <div class="mini-card"><span>Wind</span><strong id="windSpeed">--</strong></div>
+              <div class="mini-card"><span>Pressure</span><strong id="pressure">--</strong></div>
+              <div class="mini-card"><span>Visibility</span><strong id="visibility">--</strong></div>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-card"><span>Sunrise</span><strong id="sunrise">--</strong></div>
+            <div class="detail-card"><span>Sunset</span><strong id="sunset">--</strong></div>
+            <div class="detail-card"><span>Condition</span><strong id="conditionText">--</strong></div>
+            <div class="detail-card"><span>Coordinates</span><strong id="coordinates">--</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="secondary-panels">
+        <article class="panel glass-card">
+          <div class="panel-header">
+            <h3>5-Day Forecast</h3>
+          </div>
+          <div id="forecastList" class="forecast-list"></div>
+        </article>
+
+        <article class="panel glass-card">
+          <div class="panel-header">
+            <h3>Hourly Preview</h3>
+          </div>
+          <div id="hourlyForecast" class="hourly-list"></div>
+        </article>
+      </section>
+
+      <section class="secondary-panels compact">
+        <article class="panel glass-card">
+          <div class="panel-header">
+            <h3>Air Quality & UV</h3>
+          </div>
+          <div id="airQuality" class="quick-stats"></div>
+        </article>
+
+        <article class="panel glass-card">
+          <div class="panel-header">
+            <h3>Quick Actions</h3>
+          </div>
+          <div class="action-buttons">
+            <button id="copySummary" class="secondary-button" type="button">Copy Summary</button>
+            <button id="shareSummary" class="secondary-button" type="button">Share</button>
+            <button id="clearHistory" class="secondary-button" type="button">Clear History</button>
+          </div>
+          <div class="panel-header recent-header">
+            <h3>Recent Searches</h3>
+          </div>
+          <div id="recentSearches" class="recent-list" aria-label="Recent searches"></div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Weather data powered by WeatherAPI.com • Designed for clarity and speed.</p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
